@@ -60,7 +60,8 @@ module.exports = (env) => {
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true,
-      publicPath: '/dist/'
+      publicPath: '/dist/',
+      disableHostCheck: true //get rid of invalid host header issue.
     }
   };
 };
