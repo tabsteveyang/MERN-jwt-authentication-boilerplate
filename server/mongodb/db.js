@@ -3,7 +3,7 @@ const express = require('express');
 const { User } = require('./schema/User');
 const { Group } = require('./schema/Group');
 
-const dbhost = process.env.DBHOST || 'mongodb://localhost:27017/Learner';
+const dbhost = process.env.DBHOST;
 mongoose.connect(dbhost);
 
 module.exports = {

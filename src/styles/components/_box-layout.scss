@@ -1,6 +1,7 @@
 .box-layout {
   align-items: center;
-  background: url('/images/bg.jpg');
+  //background: url('/images/bg.jpg');
+  background: url('//c1.staticflickr.com/3/2937/14472303464_2e8c00f87d_h.jpg');
   background-size: cover;
   display: flex;
   height: 100vh;
@@ -12,11 +13,11 @@
   background: fade-out(white, .15);
   border-radius: 3px;
   padding: $l-size $m-size;
-  text-align: center;
   width: 25rem;
 }
 
 .box-layout__title {
   margin: 0 0 $m-size 0;
   line-height: 1;
+  text-align: center;
 }

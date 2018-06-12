@@ -7,10 +7,8 @@ export const changeStatus = (status) => ({
 });
 
 export const startCreateUser = (data) => {
-//console.log(data);
   return (dispatch) => {
-    return axios.post('/create_user', data).then((res) => {
-//console.log(res);
+    return axios.post('/admin/create_user', data).then((res) => {
         if(res.data === 'success'){
             dispatch(changeStatus('success'));
         }else{

@@ -1,5 +1,5 @@
 {
-  "name": "learner-app",
+  "name": "MERN-auth-boilerplate",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Tab",
@@ -7,7 +7,7 @@
   "scripts": {
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
-    "dev-server": "webpack-dev-server --host 0.0.0.0 --port 3000 --public",
+    "dev-server": "webpack-dev-server --host 0.0.0.0 --port 3000",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.json",
     "start": "node server/server.js",
     "heroku-postbuild": "yarn run build:prod"
@@ -22,13 +22,17 @@
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.5.2",
     "babel-preset-react": "6.24.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "bootstrap": "^4.1.1",
     "css-loader": "0.28.4",
     "enzyme-adapter-react-16": "^1.0.4",
     "express": "4.15.4",
     "extract-text-webpack-plugin": "3.0.0",
     "firebase": "4.2.0",
     "history": "4.7.2",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.10",
     "moment": "2.18.1",
     "mongodb": "^3.0.10",
     "mongoose": "^5.1.4",
@@ -54,7 +58,7 @@
   },
   "devDependencies": {
     "cross-env": "5.0.5",
-    "dotenv": "4.0.0",
+    "dotenv": "^6.0.0",
     "enzyme": "3.1.1",
     "enzyme-to-json": "3.2.2",
     "jest": "20.0.4",
