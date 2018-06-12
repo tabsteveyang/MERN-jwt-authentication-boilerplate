@@ -10,7 +10,7 @@ export class LogoutBtn extends React.Component{
         this.props.startLogout(this.props.auth.uid);
     };
     render(){
-        if(this.props.auth.uid){
+        if(this.props.auth.status === 'login'){
             return(
                 <button 
                     className="btn btn-danger" 

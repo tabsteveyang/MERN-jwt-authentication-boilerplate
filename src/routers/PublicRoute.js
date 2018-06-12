@@ -1,26 +1,35 @@
-/*
- * not using.
- */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-export const PublicRoute = ({
-  isAuthenticated,
-  component: Component,
-  ...rest
-}) => (
-    <Route {...rest} component={(props) => (
-      isAuthenticated ? (
-          <Redirect to="/dashboard" />
-      ) : (
-          <Component {...props} />
-      )
-    )} />
-);
+export class PublicRoute extends React.Component{
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        const {
+            auth,
+            component: Component,
+            ...rest
+        } = this.props;
+        
+        const isAuthenticated = false;
+
+        return(
+            <Route {...rest} component={(props) => (
+                isAuthenticated ? (
+                    <Redirect to="/dashboard" />
+                ) : (
+                    <Component {...props} />
+                )
+            )} />
+        );
+    }
+}
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: !!state.auth.uid
+  auth: state.auth
 });
 
 export default connect(mapStateToProps)(PublicRoute);

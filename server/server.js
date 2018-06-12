@@ -24,7 +24,6 @@ app.use(express.static(publicPath));
 app.use(bodyParser.json()); //the middleware is a must for receiving data from client-side.
 
 //database API:
-    //jwt.verify();
 app.use('/admin/create_user', (req, res, next) => {
     const data = req.body;
     const user = new User(data);
@@ -36,10 +35,27 @@ app.use('/admin/create_user', (req, res, next) => {
 	next();
     });
 });
-
+app.use('/user/check_token', (req, res, next) => {
+    const token = req.body.token;
+    //parse token.
+    const data = jwt.decode(token);
+    //find user by id.
+    User.findById(data._id).then((userData) => {
+        //check is the token exist in the tokens array.
+        if(userData.tokens.indexOf(token) !== -1){
+            res.send('success');
+        }else{
+            res.send('invalid');
+        }
+        next();
+    }).catch((e) => {
+        res.status(403).send('invalid');
+        next();
+    });
+});
 app.use('/user/login', (req, res, next) => {
     const data = _.pick(req.body, ['email', 'password']);
-    User.findByCredentials(data.email, data.password).then((userData)=>{
+    User.findByCredentials(data.email, data.password).then((userData) => {
         userData.generateAuthToken().then((token) => {
             userData = _.pick(userData, ['_id', 'name', 'email']);
             res.header('x-auth', token).send(userData);
@@ -50,7 +66,6 @@ app.use('/user/login', (req, res, next) => {
         next();
     });
 });
-
 app.use('/user/logout', (req, res, next) => {
     const data = _.pick(req.body, ['uid', 'currentUsrJwt']);
     User.findById(data.uid).then((userData) => {

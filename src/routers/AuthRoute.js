@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+//import { Route, Redirect } from 'react-router-dom';
 import { startCheckToken, logout, login } from '../actions/auth';
 import { setStorage, getStorage, clearStorage } from '../helper/cookie';
-import Navbar from '../components/Navbar';  //something that can only be shown after user login.
 
-export class PrivateRoute extends React.Component{
+export class AuthRoute extends React.Component{
     constructor(props){
         super(props);
     }
@@ -58,31 +57,6 @@ export class PrivateRoute extends React.Component{
             return '';
         }
     };
-    render(){
-        const {
-	    startCheckToken,  //just destruct it so that the ...rest part will not be contaminated.
-	    auth,
-	    component: Component,
-	    accessRequire = '',
-	    ...rest
-	} = this.props;
-
-        //Check is authenticated or not: (boolean)
-        const isAuthenticated = this.checkAuthState(accessRequire); 
-
-        return (
-          <Route {...rest} component={(props) => (
-            isAuthenticated ? (
-              <div className="container-fluid">
-                  <Navbar />
-                  <Component {...props} />
-              </div>
-            ) : (
-              <Redirect to="/" />
-            )
-          )} />
-        );
-    }
 }
 
 const mapStateToProps = (state) => ({
@@ -94,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
     logout: () => dispatch(logout())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthRoute);

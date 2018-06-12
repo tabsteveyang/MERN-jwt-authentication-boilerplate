@@ -1,12 +1,23 @@
 import axios from 'axios';
-///!!!
-const clearStorage = (name) => {
-    sessionStorage.setItem(name, '');
-};
-const setStorage = (name, value) => {
-    sessionStorage.setItem(name, value);
-};
-///!!!
+import { setStorage, getStorage, clearStorage } from '../helper/cookie';
+
+//check token:
+export const startCheckToken = (token) => {
+    return (dispatch) => {
+        return axios.post('/user/check_token', {token}).then((res) => {
+            //console.log(res);
+            if(res.data === 'success'){
+                return Promise.resolve(true);
+            }else{
+                return Promise.reject(false);
+            }
+        }).catch((e) => {
+            dispatch(login_error());
+            clearStorage('usrJwt');
+            return Promise.reject(false);
+        });
+    }
+}
 
 //handel login:
 export const login = (payload) => ({
@@ -37,7 +48,7 @@ export const logout = () => ({
 });
 export const startLogout = (uid) => {
   return (dispatch) => {
-    const currentUsrJwt = sessionStorage.getItem('usrJwt'); //!!!
+    const currentUsrJwt = getStorage('usrJwt');
     if(!currentUsrJwt || currentUsrJwt === '')
         throw 'user is not login';
     const data = { uid, currentUsrJwt };

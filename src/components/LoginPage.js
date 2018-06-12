@@ -22,17 +22,19 @@ export class LoginPage extends React.Component{
         e.preventDefault();
         this.props.startLogin(this.state);
     };
-    checkIsLogin(){
-        if(this.props.auth.status === 'login'){
-            this.props.history.push('/dashboard');
-        }
-    }
-    componentDidUpdate(){
-        this.checkIsLogin();
-    }
-    componentWillMount(){
-        this.checkIsLogin();
-    }
+//
+//    checkIsLogin(){
+//        if(this.props.auth.status === 'login'){
+//            this.props.history.push('/dashboard');
+//        }
+//    }
+//    componentDidUpdate(){
+//        this.checkIsLogin();
+//    }
+//    componentWillMount(){
+//        this.checkIsLogin();
+//    }
+//
     render(){
         return(
            <div className="box-layout">
