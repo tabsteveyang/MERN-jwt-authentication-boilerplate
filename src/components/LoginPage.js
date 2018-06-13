@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { startLogin } from '../actions/auth';
+import AuthChecker from '../routers/AuthChecker';
 
 export class LoginPage extends React.Component{
     constructor(props){
@@ -22,22 +23,10 @@ export class LoginPage extends React.Component{
         e.preventDefault();
         this.props.startLogin(this.state);
     };
-//
-//    checkIsLogin(){
-//        if(this.props.auth.status === 'login'){
-//            this.props.history.push('/dashboard');
-//        }
-//    }
-//    componentDidUpdate(){
-//        this.checkIsLogin();
-//    }
-//    componentWillMount(){
-//        this.checkIsLogin();
-//    }
-//
     render(){
         return(
            <div className="box-layout">
+               <AuthChecker history={this.props.history} isPublic={true}/>
                <div className="box-layout__box">
                     <h1 className="box-layout__title">App</h1>
                         <form>
@@ -70,11 +59,8 @@ export class LoginPage extends React.Component{
         );
     }
 }
-const mapStateToProps = (state, props) => ({
-    auth: state.auth
-});
 const mapDispatchToProps = (dispatch) => ({
   startLogin: (data) => dispatch(startLogin(data))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(undefined, mapDispatchToProps)(LoginPage);

@@ -57,8 +57,9 @@ app.use('/user/login', (req, res, next) => {
     const data = _.pick(req.body, ['email', 'password']);
     User.findByCredentials(data.email, data.password).then((userData) => {
         userData.generateAuthToken().then((token) => {
-            userData = _.pick(userData, ['_id', 'name', 'email']);
-            res.header('x-auth', token).send(userData);
+	    const {status, _id: uid, name, email, access, iat} = jwt.decode(token);
+	    payload = {status, uid, name, email, access, iat};
+            res.header('x-auth', token).send(payload);
             next();
         });
     }).catch((e) => {

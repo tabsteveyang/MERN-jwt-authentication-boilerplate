@@ -5,7 +5,6 @@ import { setStorage, getStorage, clearStorage } from '../helper/cookie';
 export const startCheckToken = (token) => {
     return (dispatch) => {
         return axios.post('/user/check_token', {token}).then((res) => {
-            //console.log(res);
             if(res.data === 'success'){
                 return Promise.resolve(true);
             }else{
@@ -30,8 +29,8 @@ export const login_error = () => ({
 export const startLogin = (data) => {
   return (dispatch) => {
     return axios.post('/user/login', data).then((res) => {
-        const { _id: uid, name, email } = res.data;
-        dispatch(login({uid, name, email}));
+        //update redux data.
+        dispatch(login(res.data));
         //store token to storage.
         const token  = res.headers['x-auth'];
         setStorage('usrJwt', token);

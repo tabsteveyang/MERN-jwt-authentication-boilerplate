@@ -3,4 +3,5 @@ public/dist/
 .env.test
 .env.development
 *.swp
+*.swo
 server/secret/*

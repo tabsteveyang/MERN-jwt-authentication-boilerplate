@@ -1,5 +1,5 @@
 const defaultState = {
-    status: 'logout'
+    status: ''
 };
 
 export default (state = defaultState, action) => {
@@ -14,7 +14,9 @@ export default (state = defaultState, action) => {
           status: 'error'
       };
     case 'LOGOUT':
-      return defaultState;
+      return {
+          status: 'logout'
+      };
     default:
       return state;
   }

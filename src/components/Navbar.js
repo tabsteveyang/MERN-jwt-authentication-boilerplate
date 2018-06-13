@@ -7,6 +7,13 @@ export const Navbar = () => (
 	 <Link className="navbar-brand" to="/dashboard">
 	     Boilerplate
 	 </Link>
+         <ul className="navbar-nav mr-auto">
+               <li className="nav-item">
+         	 <Link className="nav-link" to="/admin/createusr">
+         	     CreateUser
+         	 </Link>
+               </li>
+         </ul>
          <LogoutBtn />
     </nav>
 );

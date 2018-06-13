@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
 import { startCreateUser, changeStatus } from '../actions/forms';
+import Navbar from './Navbar';
+import AuthChecker from '../routers/AuthChecker';
 
 export class CreatePage extends React.Component{
     constructor(props){
@@ -114,7 +116,9 @@ export class CreatePage extends React.Component{
     }
     render(){
         return(
-        <div className='container'>
+        <div className='container-fluid'>
+            <AuthChecker history={this.props.history} isPublic={false} accessRequire={'isAdmin'}/>
+            <Navbar />
             <div className="jumbotron">
                 <h1 className="display-4">Create User</h1>
                 <form>
