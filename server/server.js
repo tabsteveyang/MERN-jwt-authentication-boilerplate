@@ -23,67 +23,122 @@ const port = process.env.PORT || 3000;
 app.use(express.static(publicPath));
 app.use(bodyParser.json()); //the middleware is a must for receiving data from client-side.
 
+///////middleware function:
+//  similiar to the method that '/user/check_token' route will trigger but slightly different.
+const tokenChecker = (req, res, next) => {
+    const token = req.header('x-auth');
+    if(!token || token === '' || token === 'undefined'){
+        res.status(403).send('invalid');
+        return;
+    }
+    //parse token.
+    const data = jwt.decode(token);
+    if(data){
+        //find user by id.
+        User.findById(data.uid).then((userData) => {
+            //check is the token exist in the tokens array.
+            if(userData.tokens.indexOf(token) !== -1){
+                //token is valid -> keep going.
+                req.userInfo = data;
+                req.token = token;
+                next();
+            }else{
+                //token is not valid -> stop here.
+                return Promise.reject();
+            }
+        }).catch((e) => {
+            //when there is an error while access the db -> block the request.
+            res.status(403).send('invalid');
+        });
+    }else{
+        //token is not in the correct form -> stop here.
+        res.status(403).send('invalid');
+    }
+};
+///////helper function:
+const priviligeChecker = (access, require) => {
+    if(access){
+        const len = require.length;
+        for(let i = 0; i < len; i++){
+            if(access[require[i]] === false)
+                return false;
+        }
+    }else{
+        return false;
+    }
+
+    return true;
+};
+///////
+
 //database API:
-app.use('/admin/create_user', (req, res, next) => {
-    const data = req.body;
-    const user = new User(data);
-    user.save().then((doc) => {
-        res.send('success');
-        next();
-    }).catch((e) => {
-        res.send(e);
-	next();
-    });
-});
-app.use('/user/check_token', (req, res, next) => {
-    const token = req.body.token;
+app.use('/user/check_token', (req, res) => {
+    const token = req.header('x-auth');
+    if(!token || token === '' || token === 'undefined'){
+        res.status(403).send('invalid');
+        return;
+    }
     //parse token.
     const data = jwt.decode(token);
     //find user by id.
-    User.findById(data._id).then((userData) => {
-        //check is the token exist in the tokens array.
-        if(userData.tokens.indexOf(token) !== -1){
-            res.send('success');
-        }else{
-            res.send('invalid');
-        }
-        next();
-    }).catch((e) => {
+    if(data){
+        User.findById(data.uid).then((userData) => {
+            //check is the token exist in the tokens array.
+            if(userData.tokens.indexOf(token) !== -1){
+                res.send('success');
+            }else{
+                res.status(403).send('invalid');
+            }
+        }).catch((e) => {
+            res.status(403).send('invalid');
+        });
+    }else{
         res.status(403).send('invalid');
-        next();
-    });
+    }
 });
-app.use('/user/login', (req, res, next) => {
+app.use('/user/login', (req, res) => {
     const data = _.pick(req.body, ['email', 'password']);
     User.findByCredentials(data.email, data.password).then((userData) => {
         userData.generateAuthToken().then((token) => {
-	    const {status, _id: uid, name, email, access, iat} = jwt.decode(token);
+	    const {status, uid, name, email, access, iat} = jwt.decode(token);
 	    payload = {status, uid, name, email, access, iat};
             res.header('x-auth', token).send(payload);
-            next();
         });
     }).catch((e) => {
-        res.status(400).send();
-        next();
+        res.status(400).send('invalid');
     });
 });
-app.use('/user/logout', (req, res, next) => {
-    const data = _.pick(req.body, ['uid', 'currentUsrJwt']);
-    User.findById(data.uid).then((userData) => {
-        userData.removeAuthToken(data.currentUsrJwt).then((response) => {
+app.use('/user/logout', tokenChecker, (req, res) => {
+    const uid = req.userInfo.uid;
+    const currentUsrJwt = req.token;
+    User.findById(uid).then((userData) => {
+        userData.removeAuthToken(currentUsrJwt).then((response) => {
             //check the result.
-            if(response.tokens.indexOf(data.token) === -1){
+            if(response.tokens.indexOf(currentUsrJwt) === -1){
                 res.send('success');
-                next();
             }
         });
     }).catch((e) => {
         res.status(401).send('error');
-        next();
+    });
+});
+app.use('/admin/create_user', tokenChecker, (req, res) => {
+    //check privilige:
+    const allowAccess = priviligeChecker(req.userInfo.access, ['isAdmin']);
+    if(!allowAccess){
+        res.status(403).send('invalid');
+        return;  //exit the function to make sure the user without privilige can't create a new user.
+    }
+    const data = req.body;
+    const user = new User(data);
+    user.save().then((doc) => {
+        res.send('success');
+    }).catch((e) => {
+        res.send(e);
     });
 });
 
-//client side reactJS routing:
+//client side reactJS SPA routing:
 app.get('*', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });

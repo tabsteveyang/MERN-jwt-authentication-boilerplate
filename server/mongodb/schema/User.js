@@ -90,7 +90,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.methods.generateAuthToken = function(){
     const user = this;
     const access = user.privilige.toObject()[0];
-    const token = jwt.sign({_id: user._id.toHexString(), name: user.name, email: user.email, access}, TOKEN_SALT).toString();
+    const token = jwt.sign({uid: user._id.toHexString(), name: user.name, email: user.email, access}, TOKEN_SALT).toString();
     //can clear the user.tokens array before adding, to limit the login-session, but we keep all the session in this project.
     user.tokens = user.tokens.concat([token]); //add the token into user's tokens array.
     return user.save().then(() => {

@@ -4,7 +4,12 @@ import { setStorage, getStorage, clearStorage } from '../helper/cookie';
 //check token:
 export const startCheckToken = (token) => {
     return (dispatch) => {
-        return axios.post('/user/check_token', {token}).then((res) => {
+        const reqInstance = axios.create({
+            headers: {
+                'x-auth': getStorage('usrJwt')
+            }
+        });
+        return reqInstance.post('/user/check_token', {token}).then((res) => {
             if(res.data === 'success'){
                 return Promise.resolve(true);
             }else{
@@ -48,10 +53,19 @@ export const logout = () => ({
 export const startLogout = (uid) => {
   return (dispatch) => {
     const currentUsrJwt = getStorage('usrJwt');
-    if(!currentUsrJwt || currentUsrJwt === '')
-        throw 'user is not login';
+    try{
+        if(!currentUsrJwt || currentUsrJwt === '')
+            throw 'user is not login';
+    }catch(e){
+        //!!log the information
+    }
     const data = { uid, currentUsrJwt };
-    return axios.post('/user/logout', data).then((res) => {
+    const reqInstance = axios.create({
+        headers: {
+            'x-auth': getStorage('usrJwt')
+        }
+    });
+    return reqInstance.post('/user/logout', data).then((res) => {
         if(res.data === 'success'){
             dispatch(logout());
             clearStorage('usrJwt');
