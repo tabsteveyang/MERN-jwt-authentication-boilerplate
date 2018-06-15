@@ -14,62 +14,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
-const { User, Group } = require('./mongodb/db');
+const { User } = require('./mongodb/db');
+const { tokenChecker, priviligeChecker } = require('./helpers/auth');
+const { writeLog } = require('../utils/logger');
 
 const app = express();
 const publicPath = path.join(__dirname, '..', 'public');
 const port = process.env.PORT || 3000;
 
+const secure = require('ssl-express-www'); //force using ssl in prod.
+if(process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development'){
+    app.use(secure);
+}
 app.use(express.static(publicPath));
 app.use(bodyParser.json()); //the middleware is a must for receiving data from client-side.
-
-///////middleware function:
-//  similiar to the method that '/user/check_token' route will trigger but slightly different.
-const tokenChecker = (req, res, next) => {
-    const token = req.header('x-auth');
-    if(!token || token === '' || token === 'undefined'){
-        res.status(403).send('invalid');
-        return;
-    }
-    //parse token.
-    const data = jwt.decode(token);
-    if(data){
-        //find user by id.
-        User.findById(data.uid).then((userData) => {
-            //check is the token exist in the tokens array.
-            if(userData.tokens.indexOf(token) !== -1){
-                //token is valid -> keep going.
-                req.userInfo = data;
-                req.token = token;
-                next();
-            }else{
-                //token is not valid -> stop here.
-                return Promise.reject();
-            }
-        }).catch((e) => {
-            //when there is an error while access the db -> block the request.
-            res.status(403).send('invalid');
-        });
-    }else{
-        //token is not in the correct form -> stop here.
-        res.status(403).send('invalid');
-    }
-};
-///////helper function:
-const priviligeChecker = (access, require) => {
-    if(access){
-        const len = require.length;
-        for(let i = 0; i < len; i++){
-            if(access[require[i]] === false)
-                return false;
-        }
-    }else{
-        return false;
-    }
-
-    return true;
-};
-///////
 
 //database API:
 app.use('/user/check_token', (req, res) => {
@@ -90,6 +48,7 @@ app.use('/user/check_token', (req, res) => {
                 res.status(403).send('invalid');
             }
         }).catch((e) => {
+            writeLog(e, {file: 'server.js:47'});
             res.status(403).send('invalid');
         });
     }else{
@@ -105,6 +64,7 @@ app.use('/user/login', (req, res) => {
             res.header('x-auth', token).send(payload);
         });
     }).catch((e) => {
+        writeLog(e, {file: 'server.js:63'});
         res.status(400).send('invalid');
     });
 });
@@ -119,6 +79,7 @@ app.use('/user/logout', tokenChecker, (req, res) => {
             }
         });
     }).catch((e) => {
+        writeLog(e, {file: 'server.js:78'});
         res.status(401).send('error');
     });
 });
@@ -134,7 +95,8 @@ app.use('/admin/create_user', tokenChecker, (req, res) => {
     user.save().then((doc) => {
         res.send('success');
     }).catch((e) => {
-        res.send(e);
+        writeLog(e, {file: 'server.js:94'});
+        res.send('invalid');
     });
 });
 
@@ -144,5 +106,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Server is up! Listening to the port: ', port);
+  const msg = `Server is up! Listening to the port: ${port}, in env: ${process.env.NODE_ENV}`;
+  writeLog(msg, {type: 'sys'});
+  console.log(msg);
 });

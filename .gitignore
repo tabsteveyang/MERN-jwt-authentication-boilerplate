@@ -5,3 +5,4 @@ public/dist/
 *.swp
 *.swo
 server/secret/*
+logs/*

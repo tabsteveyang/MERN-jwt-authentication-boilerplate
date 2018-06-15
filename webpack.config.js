@@ -2,14 +2,16 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-//process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-//
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+/*
+ * We check the NODE_ENV in backend already.
+ */
 //if (process.env.NODE_ENV === 'test') {
 //  require('dotenv').config({ path: '.env.test' });
 //} else if (process.env.NODE_ENV === 'development') {
 //  require('dotenv').config({ path: '.env.development' });
 //}
-//console.log(JSON.stringify(process.env.SALT));
 
 module.exports = (env) => {
   const isProduction = env === 'production';
@@ -48,9 +50,10 @@ module.exports = (env) => {
     },
     plugins: [
       CSSExtract,
-      //new webpack.DefinePlugin({
-      //  'process.env.SALT': JSON.stringify(process.env.SALT),
-      //})
+      //bind env constances to frontend.
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      })
     ],
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {

@@ -10,31 +10,3 @@ module.exports = {
     User,
     Group,
 };
-
-//var testgroup = new Group({
-//    name: 'testgroup',
-//    visibility: true,
-//    session: [{
-//        name: 'session1',
-//        card: [{
-//            question: 'test',
-//            answer: '測試'
-//        }]
-//    }]
-//});
-//testgroup.save().then((doc) => {
-//    console.log(JSON.stringify(doc, undefined, 2));
-//});
-
-//var testuser = new User({
-//    name: 'testuser', 
-//    pic: '', 
-//    password: '123456', 
-//    email: 'test@gmail.com', 
-//    settings: {}, 
-//    privilige: {}, 
-//    enrollment: {}
-//});
-//testuser.save().then((doc) => {
-//    console.log(JSON.stringify(doc, undefined, 2));
-//});

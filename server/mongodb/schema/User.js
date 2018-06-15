@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { writeLog } = require('../../../utils/logger');
+
 const TOKEN_SALT = JSON.stringify(process.env.TOKEN_SALT);
 
 //mongoose Schema object.
@@ -89,10 +91,17 @@ const UserSchema = new mongoose.Schema({
 //object.methods -> the method for objects(not for the class).
 UserSchema.methods.generateAuthToken = function(){
     const user = this;
+    //A. to prevent tokens array growing without a limit:
+    const tokenLimit = 3;
+    if(user.tokens.length >= tokenLimit){
+        user.tokens.shift(); //if over the limit -> remove the oldest one.
+    }
+    //B. create new token:
     const access = user.privilige.toObject()[0];
     const token = jwt.sign({uid: user._id.toHexString(), name: user.name, email: user.email, access}, TOKEN_SALT).toString();
     //can clear the user.tokens array before adding, to limit the login-session, but we keep all the session in this project.
     user.tokens = user.tokens.concat([token]); //add the token into user's tokens array.
+    //C. commit the changes above:
     return user.save().then(() => {
         return token;
     });
@@ -108,6 +117,7 @@ UserSchema.methods.removeAuthToken = function(token){
                 return user.save();
             }
         }catch(e){
+            writeLog(e, {file: 'server/mongodb/schema/User.js:118'});
             return Promise.reject();
         }
     }else{
@@ -118,6 +128,7 @@ UserSchema.methods.removeAuthToken = function(token){
                 return user.save();
             }
         }catch(e){
+            writeLog(e, {file: 'server/mongodb/schema/User.js:129'});
             return Promise.reject();
         }
     }

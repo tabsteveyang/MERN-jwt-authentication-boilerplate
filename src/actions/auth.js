@@ -57,7 +57,7 @@ export const startLogout = (uid) => {
         if(!currentUsrJwt || currentUsrJwt === '')
             throw 'user is not login';
     }catch(e){
-        //!!log the information
+        //do nothing
     }
     const data = { uid, currentUsrJwt };
     const reqInstance = axios.create({
