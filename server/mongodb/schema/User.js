@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { writeLog } = require('../../../utils/logger');
+const { writeLog } = require('../../utils/logger');
 
 const TOKEN_SALT = JSON.stringify(process.env.TOKEN_SALT);
 

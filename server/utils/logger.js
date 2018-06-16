@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const date = require('date-and-time');
+const moment = require('moment');
 
 const dir = path.join(__dirname, '..', 'logs');
 if(!fs.existsSync(dir)){
@@ -13,10 +13,12 @@ if(!fs.existsSync(dir)){
 }
 
 function writeLog(rawContent, settings) {
+    if(process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development'){
+        return;
+    }
     const {type='error', from='server', file=''} = settings;
     const fileDir = path.join(dir, `${from}_${type}.log`);
-    let now = new Date();
-    now = date.format(now, "YYYY-MM-DD HH:mm:ss Z"); 
+    const now  = moment().format();
     let content = `${now} FROM: ${from}  Msg: ${rawContent} `;
     if(file !== ''){
         content += `[${file}]\n`;

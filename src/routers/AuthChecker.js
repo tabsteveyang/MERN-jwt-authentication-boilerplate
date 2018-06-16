@@ -78,6 +78,7 @@ export class AuthChecker extends React.Component{
         }
     };
     componentDidUpdate(){
+        const { delay = 0 } = this.props;
         //setTimeout to make sure the check will not run before the cookie is created or redux is updated.
         setTimeout(() => {
             //to prevent keep calling componentDidUpdate while logging the user out.
@@ -85,8 +86,12 @@ export class AuthChecker extends React.Component{
                 this.props.history.push('/');
                 return;
             }
+            //stay at the error status and waiting for next try.
+            if(this.props.auth.status === 'error'){
+                return;
+            }
             this.startCheckAuthState();
-        }, 0); 
+        }, delay); 
     }
     componentDidMount(){
         this.startCheckAuthState();

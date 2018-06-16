@@ -8,21 +8,20 @@ if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.development' });
 }
 //// End:   set up environment constants.
-
-const path = require('path');
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const secure = require('ssl-express-www'); //force using ssl in prod.
 const { User } = require('./mongodb/db');
 const { tokenChecker, priviligeChecker } = require('./helpers/auth');
-const { writeLog } = require('../utils/logger');
+const { writeLog } = require('./utils/logger');
 
 const app = express();
 const publicPath = path.join(__dirname, '..', 'public');
 const port = process.env.PORT || 3000;
 
-const secure = require('ssl-express-www'); //force using ssl in prod.
 if(process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development'){
     app.use(secure);
 }

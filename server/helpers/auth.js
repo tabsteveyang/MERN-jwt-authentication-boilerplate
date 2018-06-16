@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../mongodb/db');
-const { writeLog } = require('../../utils/logger');
+const { writeLog } = require('../utils/logger');
 
 //middleware function:
 //  similiar to the method that '/user/check_token' route will trigger but slightly different.
@@ -51,7 +51,4 @@ const priviligeChecker = (access, require) => {
     return true;
 };
 
-module.exports = {
-    tokenChecker,
-    priviligeChecker
-};
+module.exports = { tokenChecker, priviligeChecker };

@@ -4,5 +4,4 @@ public/dist/
 .env.development
 *.swp
 *.swo
-server/secret/*
-logs/*
+server/logs/*

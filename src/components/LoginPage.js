@@ -26,9 +26,9 @@ export class LoginPage extends React.Component{
     render(){
         return(
            <div className="box-layout">
-               <AuthChecker history={this.props.history} isPublic={true}/>
+               <AuthChecker history={this.props.history} isPublic={true} />
                <div className="box-layout__box">
-                    <h1 className="box-layout__title">App</h1>
+                    <h1 className="box-layout__title">MERN App</h1>
                         <form>
                             <div className="form-group">
                         	<label htmlFor="inputEmail">Account</label>
@@ -52,15 +52,30 @@ export class LoginPage extends React.Component{
                         	></input>
                             </div>
                             <hr/>
-                            <button className="btn btn-primary btn-lg" onClick={this.onSubmit}>Confirm</button>
+                            <button 
+                                className="btn btn-primary btn-lg" 
+                                onClick={this.onSubmit}
+                                disabled={(this.state.email.length === 0 || this.state.password.length === 0) ? true : false}
+                            >Confirm</button>
+                            { this.props.auth.status === 'error' ? (
+                                <span className="err-hint" role="alert">
+			            Invalid account or password.
+			        </span>
+                            ) : (
+                                <span></span>
+                            )}
                         </form>
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state, props) => ({
+    auth: state.auth
+});
 const mapDispatchToProps = (dispatch) => ({
   startLogin: (data) => dispatch(startLogin(data))
 });
 
-export default connect(undefined, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
