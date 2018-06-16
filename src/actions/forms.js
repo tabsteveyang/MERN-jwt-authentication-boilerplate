@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getStorage } from '../helper/cookie';
+import { getStorage } from '../helpers/cookie';
 
 export const changeStatus = (status) => ({
     type: 'CHANGE_STATUS',

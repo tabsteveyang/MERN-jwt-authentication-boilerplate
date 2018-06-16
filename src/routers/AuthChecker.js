@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { startCheckToken, logout, login } from '../actions/auth';
-import { setStorage, getStorage, clearStorage } from '../helper/cookie';
+import { setStorage, getStorage, clearStorage } from '../helpers/cookie';
 
 export class AuthChecker extends React.Component{
     constructor(props){

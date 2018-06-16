@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setStorage, getStorage, clearStorage } from '../helper/cookie';
+import { setStorage, getStorage, clearStorage } from '../helpers/cookie';
 
 //check token:
 export const startCheckToken = (token) => {
