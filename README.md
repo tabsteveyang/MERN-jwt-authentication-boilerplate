@@ -1,6 +1,7 @@
 # MERN-jwt-authentication-boilerplate
 This boilerplate is design to deploy on Heroku, you should tweak it if that is not your purpose. <br>
-(Base on https://github.com/andrewjmead/react-course-2-boilerplate)
+(Base on https://github.com/andrewjmead/react-course-2-boilerplate) <br>
+More information on https://medium.com/@tabsteveyang/mern-authentication-with-jwt-43e29f278317
 
 ## How to start:
 1. Set up the mongoDB server and run it.
