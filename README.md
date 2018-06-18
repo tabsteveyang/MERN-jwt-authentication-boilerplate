@@ -32,7 +32,7 @@ import the src/routers/AuthChecker component and place it in the render method i
 #### AuthCheck component accepts 3 attributes:
 * history(Object): The history object for redirecting users.<br>
 * isPublic(Boolean): If the page should not be accessable when the user is not login then it should be false.<br>
-* accessRequire(String)(Optional): The privilege that a user should have to access the page. Can send more then 1 requirement by seperating them by a comma(,) . <br> 
+* accessRequire(String)(Optional): The privilege that a user should have to access the page. Can send more then one requirement by seperating them by a comma(,) . <br> 
 <br>
 For example: 
 
