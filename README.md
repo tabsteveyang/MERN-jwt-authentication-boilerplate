@@ -31,8 +31,8 @@ $ yarn dev:prod && node server/server.js
 import the src/routers/AuthChecker component and place it in the render method in the page component which needs to be protected. <br>
 #### AuthCheck component accepts 3 attributes:
 * history(Object): The history object for redirecting users.<br>
-* isPublic(Boolean): If the page should not be accessable when the user is not login then it should be false.<br>
-* accessRequire(String)(Optional): The privilege that a user should have to access the page. Can send more then one requirement by seperating them by a comma(,) . <br> 
+* isPublic(Boolean): If the page should not be accessible when the user is not login then it should be false. It can also be true if the page should not be shown while the user has logged in, such as the LoginPage.js.<br>
+* accessRequire(String)(Optional): The privilege that a user should have to access the page. Can send more than one requirement by separating them by a comma(,). <br> 
 <br>
 For example: 
 
@@ -83,3 +83,6 @@ app.use('/admin/create_user', tokenChecker, (req, res) => {
     });
 });
 ```
+
+## utils component:
+There is a utils component src/components/utils/LogoutBtn.js file, it can be placed in anywhere. The button wraps the logout feature in it and will only be shown in the view when the user is logged in.
