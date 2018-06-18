@@ -57,7 +57,7 @@ export default DashboardPage;
 ```
 
 ### Back-End:
-Apply the middleware in a route and run the helper function in the begening can protect a route. <br>
+Apply the middleware in a route and run the helper function in the begening of the callback function can protect a route. <br>
 <br>
 For example:
 
