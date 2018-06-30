@@ -53,7 +53,7 @@ export class LoginPage extends React.Component{
                             </div>
                             <hr/>
                             <button 
-                                className="btn btn-primary btn-lg" 
+                                className="btn btn-primary" 
                                 onClick={this.onSubmit}
                                 disabled={(this.state.email.length === 0 || this.state.password.length === 0) ? true : false}
                             >Confirm</button>
