@@ -41,15 +41,6 @@ const UserSchema = new mongoose.Schema({
                 if(whiteList.indexOf(value) === -1)
                     return false;
             }
-        },
-        session_card_limit: {
-            type: Number,
-            default: 30,
-            validator: (value) => {
-                let whiteList = [30, 50];
-                if(whiteList.indexOf(value) === -1)
-                    return false;
-            }
         }
     }],
     privilige: [{
@@ -61,26 +52,14 @@ const UserSchema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
-        enroll: {
-            type: Boolean,
-            default: false
-        },
         create: {
             type: Boolean,
             default: false
-        },
-        play: {
-            type: Boolean,
-            default: true
         },
         isAdmin: {
             type: Boolean,
             default: false
         }
-    }],
-    enrollment: [{
-        gid: Number,
-        default: ''
     }],
     tokens: [{
         type: String,

@@ -20,8 +20,6 @@ export class CreatePage extends React.Component{
         privilige: {
             isActivate: false,
             setting: false,
-            enroll: false,
-            play: true,
             create: false,
             isAdmin: false
         },
@@ -184,35 +182,11 @@ export class CreatePage extends React.Component{
                                <input 
                                    className="form-check-input" 
                                    type="checkbox"
-                                   checked={this.state.privilige.enroll}
-                                   onChange={this.onInputCheck}
-                                   name="enroll"
-                               ></input>
-                               <label className="form-check-label" htmlFor="priviligeCheck3">
-                                   enroll
-                               </label>
-                            </div>
-	            	<div className="form-check">
-                               <input 
-                                   className="form-check-input" 
-                                   type="checkbox"
-                                   checked={this.state.privilige.play}
-                                   onChange={this.onInputCheck}
-                                   name="play"
-                               ></input>
-                               <label className="form-check-label" htmlFor="priviligeCheck4">
-                                   play
-                               </label>
-                            </div>
-	            	<div className="form-check">
-                               <input 
-                                   className="form-check-input" 
-                                   type="checkbox"
                                    checked={this.state.privilige.create}
                                    onChange={this.onInputCheck}
                                    name="create"
                                ></input>
-                               <label className="form-check-label" htmlFor="priviligeCheck5">
+                               <label className="form-check-label" htmlFor="priviligeCheck3">
                                    create
                                </label>
                             </div>
@@ -224,7 +198,7 @@ export class CreatePage extends React.Component{
                                    onChange={this.onInputCheck}
                                    name="isAdmin"
                                ></input>
-                               <label className="form-check-label" htmlFor="priviligeCheck6">
+                               <label className="form-check-label" htmlFor="priviligeCheck4">
                                    isAdmin
                                </label>
                             </div>
