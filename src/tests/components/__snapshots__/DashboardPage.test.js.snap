@@ -1,7 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render DashboardPage correctly 1`] = `
-<div>
-  Dashboard page content
+<div
+  className="container-fluid"
+>
+  <Connect(AuthChecker)
+    isPublic={false}
+  />
+  <Navbar />
+  <Connect(LogoutBtn) />
+  <h1>
+    Dashboard page content
+  </h1>
 </div>
 `;

@@ -4,4 +4,5 @@ public/dist/
 .env.development
 *.swp
 *.swo
+*.test.js.snap
 server/logs/*
