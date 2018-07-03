@@ -14,8 +14,7 @@ export class CreatePage extends React.Component{
         password: '',
         name: '',
         settings: {
-            language: 'EN',
-            sessionCardLimit: 30
+            language: 'EN'
         },
         privilige: {
             isActivate: false,
@@ -212,16 +211,6 @@ export class CreatePage extends React.Component{
                             onChange={this.onSettingsChange}
                         >
 			     <option>EN</option>
-			</select>
-                        <label htmlFor="form-control">Session card limit</label>
-                        <select 
-                            className="form-control" 
-                            name="sessionCardLimit"
-                            value={this.state.settings.sessionCardLimit}
-                            onChange={this.onSettingsChange}
-                        >
-			     <option>30</option>
-			     <option>50</option>
 			</select>
                     </div>
                     <button 

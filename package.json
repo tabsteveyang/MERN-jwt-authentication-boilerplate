@@ -9,7 +9,7 @@
     "build:prod": "NODE_ENV=production webpack -p --env production",
     "dev-server": "webpack-dev-server --host 0.0.0.0 --port 3000",
     "test:frontend": "cross-env NODE_ENV=test jest --config=jest.config.json",
-    "test:backend": "mocha server/tests/*.test.js",
+    "test:backend": "cross-env NODE_ENV=test mocha server/tests/*.test.js",
     "start": "node server/server.js",
     "heroku-postbuild": "yarn run build:prod"
   },

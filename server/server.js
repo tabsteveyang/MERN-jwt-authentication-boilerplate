@@ -109,3 +109,5 @@ app.listen(port, () => {
   writeLog(msg, {type: 'sys'});
   console.log(msg);
 });
+
+module.exports.app = app;

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { isEmail } = require('validator');
 const { writeLog } = require('../../utils/logger');
 
 const TOKEN_SALT = JSON.stringify(process.env.TOKEN_SALT);
@@ -21,14 +22,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true
-    },
-    password: {
-        type: String,
+        unique: true, 
+        validate: [ isEmail, 'invalid email' ]   
+    },                   
+    password: {          
+        type: String,    
         required: true,
-        trim: true,
-        minlength: 6   
-    },
+        trim: true,      
+        minlength: 6       
+    },                   
     lastupload: {
         type: Date
     },
