@@ -3,27 +3,51 @@ This boilerplate is design to deploy on Heroku, you should tweak it if that is n
 (Base on https://github.com/andrewjmead/react-course-2-boilerplate) <br>
 More information on https://medium.com/@tabsteveyang/mern-authentication-with-jwt-43e29f278317
 
-## How to start:
+## Getting start:
 1. Set up the mongoDB server and run it.
-2. Create your own .env.development file in the root directory of your project, with these value setting.
+2. Create your own .env.development file in the root directory of your project, with these value sets.
 ```
 TOKEN_SALT=<the random salt value>
-DBHOST=<the URI link to the NoSQL database>
+DBHOST=mongodb://<the URI link to the NoSQL database>/<db-name>     (e.g. mongodb://localhost:27017/Testapp)
 ```
 3. Install the dependency:
 ```
 $ yarn install
 ```
-4. Create an admin user in the mongodb prompt by following the schema of server/mongodb/schema/User.js file.
+4. Create a test admin user with the 'testadmin@mail.com' account and 'mypassword' password through MongoDB prompt.
+```
+$mongo use <db-name>
+
+$mongo db.users.insert({
+    "pic" : "",
+    "tokens" : [],
+    "email" : "testadmin@mail.com",
+    "password" : "$2a$10$7kCgQUNvdLRyTNg8aWdnueghqi4I3cdPlbMPImjTta2BxXDF8miA.",
+    "name" : "testadmin",
+    "settings" : [ 
+        {
+            "language" : "EN",
+        }
+    ],
+    "privilige" : [ 
+        {
+            "isActivate" : true,
+            "setting" : false,
+            "create" : false,
+            "isAdmin" : true,
+        }
+    ],
+})
+```
 5. Run the command to build and start the server:
    You can also change node to nodemon instead(if nodemon is installed globally)
 ```
 //for development build
-$ yarn dev:dev && node server/server.js
+$ yarn build:dev && node server/server.js
 ```
 ```
 //for production build
-$ yarn dev:prod && node server/server.js
+$ yarn build:prod && node server/server.js
 ```
 6. Open a browser and visit the website, login as the user that you just created.
 
