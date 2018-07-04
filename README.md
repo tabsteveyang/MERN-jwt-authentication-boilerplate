@@ -14,30 +14,10 @@ DBHOST=mongodb://<the URI link to the NoSQL database>/<db-name>     (e.g. mongod
 ```
 $ yarn install
 ```
-4. Create a test admin user with the 'testadmin@mail.com' account and 'mypassword' password through MongoDB prompt.
+4. Create a test admin user with account 'testadmin@mail.com' and password 'mypassword' by using the script(the script will be deleted automatically after running successfully).
 ```
-$mongo use <db-name>
-
-$mongo db.users.insert({
-    "pic" : "",
-    "tokens" : [],
-    "email" : "testadmin@mail.com",
-    "password" : "$2a$10$7kCgQUNvdLRyTNg8aWdnueghqi4I3cdPlbMPImjTta2BxXDF8miA.",
-    "name" : "testadmin",
-    "settings" : [ 
-        {
-            "language" : "EN",
-        }
-    ],
-    "privilige" : [ 
-        {
-            "isActivate" : true,
-            "setting" : false,
-            "create" : false,
-            "isAdmin" : true,
-        }
-    ],
-})
+$cd <path to the app root directory>
+$node createTestUser.js
 ```
 5. Run the command to build and start the server:
    You can also change node to nodemon instead(if nodemon is installed globally)
