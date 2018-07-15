@@ -4,22 +4,61 @@ exports[`should correctly render LoginPage 1`] = `
 <div
   className="box-layout"
 >
+  <Connect(AuthChecker)
+    isPublic={true}
+  />
   <div
     className="box-layout__box"
   >
     <h1
       className="box-layout__title"
     >
-      Boilerplate
+      MERN App
     </h1>
-    <p>
-      Tag line for app.
-    </p>
-    <button
-      className="button"
-    >
-      Login with Google
-    </button>
+    <form>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="inputEmail"
+        >
+          Account
+        </label>
+        <input
+          aria-describedby="emailHelp"
+          className="form-control form-control-lg"
+          onChange={[Function]}
+          placeholder="Email as account"
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="inputPassword"
+        >
+          Password
+        </label>
+        <input
+          className="form-control form-control-lg"
+          onChange={[Function]}
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+      </div>
+      <hr />
+      <button
+        className="btn btn-primary"
+        disabled={true}
+        onClick={[Function]}
+      >
+        Confirm
+      </button>
+      <span />
+    </form>
   </div>
 </div>
 `;
