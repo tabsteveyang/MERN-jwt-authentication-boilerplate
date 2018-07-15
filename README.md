@@ -91,3 +91,14 @@ app.use('/admin/create_user', tokenChecker, (req, res) => {
 
 ## Utils component:
 There is a utils component src/components/utils/LogoutBtn.js file, it can be placed in anywhere. The button wraps the logout feature in it and will only be shown in the view when the user is logged in.
+
+## Unit testing
+The unit testing for frontEnd and backEnd are separated.
+```
+//for testing front-end (using Jest and Enzyme)
+$ yarn test:frontend
+```
+```
+//for testing back-end (using Mocha)
+$ yarn test:backend
+```
