@@ -6,5 +6,5 @@
     "raf/polyfill",
     "<rootDir>/src/tests/setupTests.js"
   ],
-  "testRegex": "./src/tests/.*.js$"
+  "testRegex": "src/tests/(actions|reducers)/.*.js$"
 }

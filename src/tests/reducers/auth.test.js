@@ -1,18 +1,27 @@
 import authReducer from '../../reducers/auth';
 
-test('should set uid for login', () => {
+test("should set payload and set status as 'login' when login", () => {
   const action = {
     type: 'LOGIN',
-    uid: 'abc123'
+    payload: {data: 'value'}
   };
   const state = authReducer({}, action);
-  expect(state.uid).toBe(action.uid);
+  expect(state.status).toEqual('login');
+  expect(state.data).toEqual('value');
 });
 
-test('should clear uid for logout', () => {
+test("should set status as 'logout' and clear other attributes when logout", () => {
   const action = {
     type: 'LOGOUT'
   };
-  const state = authReducer({ uid: 'anything' }, action);
-  expect(state).toEqual({});
+  const state = authReducer({ data: 'anyvalue', status: 'login' }, action);
+  expect(state).toEqual({status: 'logout'});
+});
+
+test("should set status to 'error' and clear other attributes when error occure", () => {
+  const action = {
+    type: 'LOGOUT_ERROR'
+  };
+  const state = authReducer({ status: 'error' }, action);
+  expect(state).toEqual({status: 'error'});
 });
